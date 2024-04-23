@@ -39,12 +39,12 @@ class AddActivationPattern : public paddle::drr::DrrPatternBase {
     const auto &add = pat.Op(paddle::dialect::AddOp::name());
 
     const auto &act = pat.Op(act_type_);
-    add({&pat.Tensor("add_x"), &pat.Tensor("add_y")}, {&pat.Tensor("add_out")});
+    add({&pat.Tensor("x"), &pat.Tensor("y")}, {&pat.Tensor("add_out")});
     pat.Tensor("act_out") = act(pat.Tensor("add_out"));
 
     pat.RequireNativeCall([&](const paddle::drr::MatchContext &match_ctx) {
-      if (pir::ValueIsPersistable(match_ctx.Tensor("add_x")) ||
-          pir::ValueIsPersistable(match_ctx.Tensor("add_y"))) {
+      if (pir::ValueIsPersistable(match_ctx.Tensor("x")) ||
+          pir::ValueIsPersistable(match_ctx.Tensor("y"))) {
         return false;
       }
       return true;

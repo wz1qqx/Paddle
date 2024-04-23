@@ -23,7 +23,7 @@ from paddle.base import core
 paddle.enable_static()
 
 
-class TestAddLayernormXpuFusePattern(PassTest):
+class TestAddActivationXpuFusePattern(PassTest):
     r"""
     x_var   y_var
     \      /
